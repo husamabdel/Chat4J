@@ -160,10 +160,10 @@ public class chat4client extends UI{
 				while(client.isConnected()) {
 					
 					try {
+						
 						gcMessage = read.readLine();
 						System.out.println(gcMessage);
 						UI.textArea.append(gcMessage);
-						
 						
 					}
 					catch(IOException e) {
@@ -186,16 +186,23 @@ public class chat4client extends UI{
         * Use the hostname as a username:
         * 
         * */
-		System.out.println("Start Client \n\n\n");
-		InetAddress addy = InetAddress.getLocalHost();
-		username = addy.getHostAddress();
-		port = 9691;
-		Socket sock = new Socket ("localhost", port);
-		chat4client c = new chat4client(sock, username);
+
+		try{
+			System.out.println("Start Client \n\n\n");
+			InetAddress addy = InetAddress.getLocalHost();
+			username = addy.getHostAddress();
+			port = 9691;
+			Socket sock = new Socket ("localhost", port);
+			chat4client c = new chat4client(sock, username);
 	
-		c.messageListener();
-		c.sendMessage(" ");
-		
+			c.messageListener();
+			c.sendMessage(" ");
+		} catch(java.net.ConnectException e ){
+			JOptionPane.showMessageDialog(null, "Failed to connect to the server!", "Connection failed at port: " + port , JOptionPane.ERROR_MESSAGE, null);
+			System.exit(1);
+		}
+
+
 	}
 	
 	
