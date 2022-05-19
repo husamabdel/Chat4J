@@ -6,6 +6,7 @@ import java.io.*;
 import java.awt.*;
 import java.awt.desktop.*;
 import javax.swing.*;
+import java.awt.event.*;
 
 import client.UI.UI;
 
@@ -16,7 +17,7 @@ public class chat4client extends UI{
 	public Socket client;
 	private BufferedReader read;
 	private BufferedWriter write;
-	private static String username;
+	private static String username = System.getProperty("user.name");
 	
 
 
@@ -89,14 +90,20 @@ public class chat4client extends UI{
 
 	public chat4client(Socket client, String username){
 		
-		super();
-
+		super(username, client);
+		JButton button = new JButton();
+		super.setSend(button, new buttonListen());
+		
 		this.client = client;
 		try {
 			
 			this.write = new BufferedWriter(new OutputStreamWriter(client.getOutputStream()));
 			this.read = new BufferedReader(new InputStreamReader(client.getInputStream()));
-		
+			
+			messageListener();
+			sendMessage(" ");
+
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -117,20 +124,22 @@ public class chat4client extends UI{
 	public void sendMessage(String messageToSend) {
 		
 		try {
-			write.write(username);
+			write.write(System.getProperty("user.name"));
 			write.newLine();
 			write.flush();
 			
 			Scanner scan = new Scanner(System.in);
-			while (client.isConnected()) {
+			if (client.isConnected()) {
 				
 
 				write.write(messageToSend);
 				write.newLine();
 				write.flush();
 				
+			} else{
+				scan.close();
+				return;
 			}
-			scan.close();
 			
 			
 		} catch(IOException e) {
@@ -178,7 +187,32 @@ public class chat4client extends UI{
 		
 	}
 	
+
+	/*
 	
+	
+	ACTION LISTENER FOR BUTTON::
+
+	
+	
+	*/ 
+	
+    private class buttonListen implements ActionListener{
+
+        public void actionPerformed(ActionEvent e){
+
+            String Message = textField.getText()+"\n";
+            System.out.println(Message);
+            sendMessage(Message);
+            textField.setText(" ");
+            textArea.append(Message);
+
+        }
+
+    }
+
+
+
 	public static void main(String arguments[]) throws IOException{
 		
        /*
@@ -192,11 +226,9 @@ public class chat4client extends UI{
 			InetAddress addy = InetAddress.getLocalHost();
 			username = addy.getHostAddress();
 			port = 9691;
-			Socket sock = new Socket ("localhost", port);
-			chat4client c = new chat4client(sock, username);
+			Socket sock = new Socket ("192.168.0.25", port);
+			new chat4client(sock, username);
 	
-			c.messageListener();
-			c.sendMessage(" ");
 		} catch(java.net.ConnectException e ){
 			JOptionPane.showMessageDialog(null, "Failed to connect to the server!", "Connection failed at port: " + port , JOptionPane.ERROR_MESSAGE, null);
 			System.exit(1);

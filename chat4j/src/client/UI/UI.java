@@ -18,7 +18,7 @@ public class UI extends JFrame{
     private JTabbedPane tabbedPane;
     private JPanel panel1;
     public static JTextArea textArea;
-    private JTextField textField;
+    public JTextField textField;
     private JLabel label;
     private JButton send;
     private JScrollPane scrollPane;
@@ -47,19 +47,32 @@ public class UI extends JFrame{
         this.textField = textField;
     }
 
+    public JButton getSend() {
+        return send;
+    }
+
+    public void setSend(JButton send, ActionListener a) {
+
+        this.send = send;
+        send.addActionListener(a);
+        
+    }
+    
+
     /*
     
     CONSTRUCTOR
     
     */
     
+
     public UI(){
 
     }
 
     public UI(String username, Socket socket){
 
-        client = new chat4client(socket, username);
+        //client = new chat4client(socket, username);
 
         this.setTitle("Client");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -90,6 +103,7 @@ public class UI extends JFrame{
         textArea.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
 
         send = new JButton("Send");
+        //send.addActionListener(new buttonListen());
 
         textField = new JTextField(20);
 
@@ -108,21 +122,21 @@ public class UI extends JFrame{
     
     */
 
-
+/*
     private class buttonListen implements ActionListener{
 
         public void actionPerformed(ActionEvent e){
 
             String Message = textField.getText()+"\n";
-
-            client.sendMessage(Message);
-            textField.setText(null);
+            System.out.println(Message);
+            sendMessage(Message);
+            textField.setText(" ");
             textArea.append(Message);
 
         }
 
     }
-
+*/
 
     /*
     
