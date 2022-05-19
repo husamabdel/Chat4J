@@ -1,0 +1,3 @@
+INDEX VERSION 1.131+/home/husam/programs/chat4j/.metadata/.plugins/org.eclipse.jdt.core
+1167391784.index
+646308851.index

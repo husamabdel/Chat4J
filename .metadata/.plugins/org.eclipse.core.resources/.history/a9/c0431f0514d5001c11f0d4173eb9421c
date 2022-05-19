@@ -1,0 +1,14 @@
+package server;
+
+import java.util.*;
+import java.net.*;
+import java.io.*;
+import java.awt.*;
+import java.awt.desktop.*;
+import javax.swing.*;
+
+public class chat4server {
+
+	private ServerSocket socket;
+	
+}

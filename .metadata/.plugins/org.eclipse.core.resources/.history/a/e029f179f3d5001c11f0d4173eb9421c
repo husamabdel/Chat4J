@@ -1,0 +1,17 @@
+package client;
+
+import java.util.*;
+import java.net.*;
+import java.io.*;
+import java.awt.*;
+import java.awt.desktop.*;
+import javax.swing.*;
+
+public class chat4client {
+	
+	private String server;
+	private int port;
+	private Socket client;
+
+}
+

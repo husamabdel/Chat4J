@@ -1,0 +1,23 @@
+package server;
+
+import java.util.*;
+import java.net.*;
+import java.io.*;
+import java.awt.*;
+import java.awt.desktop.*;
+import javax.swing.*;
+
+public class handleClients implements Runnable{
+
+	public static ArrayList <handleClients> clientList = new ArrayList<>();
+	private Socket socket;
+	private BufferedReader reader;
+	
+	@Override
+	public void run() {
+		
+		
+		
+	}
+	
+}

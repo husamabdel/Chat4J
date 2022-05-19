@@ -1,0 +1,113 @@
+package client;
+
+import java.util.*;
+import java.net.*;
+import java.io.*;
+import java.awt.*;
+import java.awt.desktop.*;
+import javax.swing.*;
+
+public class chat4client {
+	
+	private String server;
+	private int port;
+	private Socket client;
+	private BufferedReader read;
+	private BufferedWriter write;
+	private static String username;
+	
+	
+	public chat4client(Socket client, String username){
+		
+		this.client = client;
+		try {
+			
+			this.write = new BufferedWriter(new OutputStreamWriter(client.getOutputStream()));
+			this.read = new BufferedReader(new InputStreamReader(client.getInputStream()));
+		
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	/*
+	 * 
+	 * 
+	 * Replace Scanner Object with a getter from the UI class later..
+	 * Best is a JTextField
+	 * 
+	 * 
+	 * */
+	
+	public void sendMessage() {
+		
+		try {
+			write.write(username);
+			write.newLine();
+			write.flush();
+			
+			Scanner scan = new Scanner(System.in);
+			while (client.isConnected()) {
+				String messageToSend = scan.nextLine();
+				write.write(messageToSend);
+				write.newLine();
+				write.flush();
+				
+			}
+			scan.close();
+			
+			
+		} catch(IOException e) {
+			System.exit(1);
+				}
+	}
+
+	public void messageListener() {
+		
+		new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				
+				String gcMessage;
+				
+				while(client.isConnected()) {
+					
+					try {
+						gcMessage = read.readLine();
+						System.out.println(gcMessage);
+						
+						
+					}
+					catch(IOException e) {
+						System.exit(1);
+					}
+					
+				}
+				
+			}
+			
+		}).start();
+		
+	}
+	
+	
+	public static void main(String arguments[]) throws IOException{
+		
+       /*
+        * 
+        * Use the hostname as a username:
+        * 
+        * */
+		
+		InetAddress addy = InetAddress.getLocalHost();
+		
+		username = addy.getHostAddress();
+	
+	}
+	
+	
+	
+}
+
