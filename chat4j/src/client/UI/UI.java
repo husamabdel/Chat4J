@@ -8,6 +8,8 @@ import java.awt.event.*;
 import java.awt.desktop.*;
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.TitledBorder;
 
 import client.chat4client;
 
@@ -76,7 +78,7 @@ public class UI extends JFrame{
 
         this.setTitle("Client");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setSize(700,600);
+        this.setSize(720,620);
         setFirstPanel();
         this.add(tabbedPane);
         this.setResizable(false);
@@ -100,9 +102,9 @@ public class UI extends JFrame{
         textArea = new JTextArea(30,60);
         textArea.setText("Testing text");
         textArea.setEditable(false);
-        textArea.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
-
-        send = new JButton("Send");
+        textArea.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED), "The Group Chat:",TitledBorder.RIGHT, TitledBorder.TOP));
+        textArea.setBackground(Color.WHITE);
+        send = new JButton();
         //send.addActionListener(new buttonListen());
 
         textField = new JTextField(20);
